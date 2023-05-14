@@ -1,6 +1,7 @@
 <template>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
         ref="modal">
+        <LoadingComponent :active="isLoading"></LoadingComponent>
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content border-0">
                 <div class="modal-header bg-dark text-white">
@@ -124,18 +125,22 @@ export default {
   data () {
     return {
       modal: {},
-      tempProduct: {}
+      tempProduct: {},
+      isLoading: false
     }
   },
   methods: {
     uploadFile () {
+      this.isLoading = true
       const uploadFile = this.$refs.fileInput.files[0]
       const formData = new FormData()
       formData.append('file-to-upload', uploadFile)
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/upload`
       this.$http.post(url, formData).then((res) => {
+        console.log(res)
         if (res.data.success) {
           this.tempProduct.imageUrl = res.data.imageUrl
+          this.isLoading = false
         }
       })
     }

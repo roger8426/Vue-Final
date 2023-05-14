@@ -20,7 +20,7 @@ export default {
   mounted () {
     this.emitter.on('push-message', (messages) => {
       const { style = 'success', title, content } = messages
-      this.messages.push(style, title, content)
+      this.messages.push({ style, title, content })
     })
   }
 }
